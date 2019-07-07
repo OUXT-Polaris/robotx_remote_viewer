@@ -20,6 +20,10 @@ app.config['MQTT_PASSWORD'] = os.environ.get('MQTT_PASSWORD')
 app.config['MQTT_REFRESH_TIME'] = 1.0  # refresh time in seconds
 mqtt = Mqtt(app)
 
+@mqtt.on_connect()
+def handle_mqtt_connect(client, userdata, flags, rc):
+    mqtt.subscribe('geopose_converter_node/geopose')
+
 @app.route('/')
 def index():
     return render_template('index.html')
